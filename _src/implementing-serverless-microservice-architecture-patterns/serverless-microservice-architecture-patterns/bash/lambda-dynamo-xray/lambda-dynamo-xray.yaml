@@ -1,0 +1,47 @@
+﻿AWSTemplateFormatVersion: '2010-09-09'
+Transform: 'AWS::Serverless-2016-10-31'
+Description: >-
+  This Lambda is invoked by API Gateway and queries DynamoDB.
+Resources:
+  lambdadynamodataapi:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: lambda_return_dynamo_records.lambda_handler
+      Runtime: python2.7
+      CodeUri: ../../package/lambda-dynamo-xray.zip
+      FunctionName: lambda-dynamo-xray-sam
+      Description: >-
+        This Lambda is invoked by API Gateway and queries DynamoDB.
+      MemorySize: 1536
+      Timeout: 3  
+      Role: 'arn:aws:iam::000000000000:role/lambda-dynamo-data-api'
+      #TracingConfig: 
+      #  Active
+      Environment:
+        Variables:
+          environment: dev
+      Events:
+        CatchAll:
+          Type: Api
+          Properties:
+            Path: /visits/{resourceId}
+            Method: GET
+  DynamoDBTable:
+    Type: AWS::DynamoDB::Table
+    Properties: 
+      TableName: user-visits-xray-sam
+      SSESpecification: 
+        SSEEnabled: True
+      AttributeDefinitions: 
+        - AttributeName: EventId
+          AttributeType: S
+        - AttributeName: EventDay
+          AttributeType: N
+      KeySchema: 
+        - AttributeName: EventId
+          KeyType: HASH
+        - AttributeName: EventDay
+          KeyType: RANGE
+      ProvisionedThroughput: 
+        ReadCapacityUnits: 10
+        WriteCapacityUnits: 1

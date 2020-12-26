@@ -1,0 +1,20 @@
+{
+    "Version": "2012-10-17",
+    "Statement": [        
+		{
+            "Effect": "Allow",
+            "Action": [
+                "dynamodb:DescribeStream",
+                "dynamodb:ListTables",
+                "dynamodb:GetShardIterator",
+                "dynamodb:ListStreams",
+                "dynamodb:GetRecords"
+            ],
+            "Resource":[ 
+			"arn:aws:dynamodb:eu-west-1:000000000000:table/user-visits/stream/*",
+			"arn:aws:dynamodb:eu-west-1:000000000000:table/user-visits-sam/stream/*",
+			"arn:aws:dynamodb:eu-west-1:000000000000:table/user-visits-xray-sam/stream/*"			
+			]
+        }
+	]
+}

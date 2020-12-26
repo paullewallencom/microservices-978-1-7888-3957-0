@@ -1,0 +1,50 @@
+﻿AWSTemplateFormatVersion: '2010-09-09'
+Transform: 'AWS::Serverless-2016-10-31'
+Description: Processes web analytics events from Kinesis Streams, counts them and writes them to DynamoDB.
+Resources:
+  kinesisStreamsMetricsLambda:
+    Type: 'AWS::Serverless::Function'
+    Properties:
+      FunctionName: lambda-kinesis-metrics-to-dynamo-sam
+      Handler: lambda_kinesis_visits_metrics.lambda_handler
+      Runtime: python2.7
+      CodeUri: ../../package/lambda-kinesis-metrics-to-dynamo.zip
+      Description: Reads Kinesis Streams records, calculates metrics ans writes them to DynamoDB
+      MemorySize: 128
+      Timeout: 300
+      Role: 'arn:aws:iam::000000000000:role/lambda-kinesis-dynamo-execution-role'
+      Events:
+        Kinesis1:
+          Type: Kinesis
+          Properties:
+            Stream:
+              'Fn::GetAtt':
+                - KinesisStream1
+                - Arn
+            StartingPosition: TRIM_HORIZON
+            BatchSize: 100
+  DynamoDBTable:
+    Type: AWS::DynamoDB::Table
+    Properties: 
+      TableName: user-visits-sam
+      SSESpecification: 
+        SSEEnabled: True
+      AttributeDefinitions: 
+        - AttributeName: EventId
+          AttributeType: S
+        - AttributeName: EventDay
+          AttributeType: N
+      KeySchema: 
+        - AttributeName: EventId
+          KeyType: HASH
+        - AttributeName: EventDay
+          KeyType: RANGE
+      ProvisionedThroughput: 
+        ReadCapacityUnits: 1
+        WriteCapacityUnits: 1
+  KinesisStream1:
+    Type: 'AWS::Kinesis::Stream'
+    Properties:
+      Name: clickstream-sam
+      RetentionPeriodHours: 24
+      ShardCount: 1

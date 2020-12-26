@@ -1,0 +1,59 @@
+{
+  "Comment": "A state machine that fulfils a restaurant order",
+  "StartAt": "LookupCustomerInfo",
+  "States": {
+    "LookupCustomerInfo": {
+      "Type": "Parallel",
+      "Branches": [{
+        "StartAt": "VerifyConsumer",
+        "States": {
+          "VerifyConsumer": {
+            "Type": "Task",
+            "Resource": "arn:aws:lambda:eu-west-1:000000000000:function:lambda-verify_consumer",
+            "End": true
+          }
+        }
+      },
+      {
+        "StartAt": "RestaurantKitchenCheck",
+        "States": {
+          "RestaurantKitchenCheck": {
+            "Type": "Task",
+            "Resource": "arn:aws:lambda:eu-west-1:000000000000:function:lambda-restaurant_kitchen_check",
+            "End": true
+          }
+        }
+      }],
+      "Next": "ChargeCreditCard"
+    },
+    "ChargeCreditCard": {
+      "Type": "Task",
+      "Resource": "arn:aws:lambda:eu-west-1:000000000000:function:lambda-charge_credit_card",
+      "Next": "ValidateOrder"
+    },
+    "ValidateOrder": {
+      "Type": "Choice",
+      "Choices": [{
+        "Variable": "$.status",
+        "StringEquals": "authorized",
+        "Next": "KitchenOrder"
+      },
+      {
+        "Variable": "$.status",
+        "StringEquals": "declined",
+        "Next": "OrderDeclined"
+      }],
+      "Default": "OrderDeclined"
+    },
+    "KitchenOrder": {
+      "Type": "Task",
+      "Resource": "arn:aws:lambda:eu-west-1:000000000000:function:lambda-kitchen_order",
+      "End": true
+    },
+    "OrderDeclined": {
+      "Type": "Task",
+      "Resource": "arn:aws:lambda:eu-west-1:000000000000:function:lambda-kitchen_order",
+      "End": true
+    }
+  }
+}

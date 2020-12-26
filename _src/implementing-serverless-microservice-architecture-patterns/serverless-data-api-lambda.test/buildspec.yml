@@ -1,0 +1,22 @@
+version: 0.1
+# Declaration of environment variables
+environment_variables:
+ plaintext:
+  REGION: "eu-west-1"
+phases:
+  install:
+    commands:
+      - printenv
+  pre_build:
+    commands:
+      - echo Build started on `date`
+      - chmod +x bash/invoke-lambda.sh
+      - ls -l
+  build:
+    commands:      
+      - ( cd bash && ./invoke-lambda.sh )
+      #- aws lambda invoke --invocation-type Event --function-name lambda-dynamo-data-api-sam --region $REGION --payload file://sample_data/request-api-gateway-valid-get.json outputfile.tmp
+      
+  post_build:
+    commands:
+      - echo Build completed on `date`

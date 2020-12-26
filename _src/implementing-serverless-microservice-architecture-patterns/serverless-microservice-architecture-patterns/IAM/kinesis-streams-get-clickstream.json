@@ -1,0 +1,21 @@
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Effect": "Allow",
+            "Action": [
+                "kinesis:GetRecords",
+                "kinesis:GetShardIterator",
+                "kinesis:DescribeStream"
+            ],
+            "Resource":[ "arn:aws:kinesis:eu-west-1:000000000000:stream/clickstream",
+			"arn:aws:kinesis:eu-west-1:000000000000:stream/clickstream-sam"
+			]
+        },
+        {
+            "Effect": "Allow",
+            "Action": "kinesis:ListStreams",
+            "Resource": "arn:aws:kinesis:eu-west-1:000000000000:stream/*"
+        }
+    ]
+}

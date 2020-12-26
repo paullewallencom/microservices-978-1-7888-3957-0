@@ -1,0 +1,38 @@
+﻿AWSTemplateFormatVersion: '2010-09-09'
+Transform: 'AWS::Serverless-2016-10-31'
+Description: >-
+  This Lambda is invoked by API Gateway and queries MySQL.
+Resources:
+  lambdadynamodataapi:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: lambda_aurora.lambda_handler
+      Runtime: python2.7
+      CodeUri: ../../package/lambda-mysql.zip
+      FunctionName: lambda-mysql-sam
+      Description: >-
+        This Lambda is invoked by API Gateway and queries MySQL.
+      MemorySize: 128
+      Timeout: 3  
+      Role: 'arn:aws:iam::000000000000:role/lambda-vpc-execution-role'
+      VpcConfig:
+        SecurityGroupIds:
+          ['sg-5648aa2c']
+        SubnetIds:
+          ['subnet-7ac4e321',
+           'subnet-d6776db1',
+           'subnet-991ef0d1']
+      Environment:
+        Variables:
+          environment: demo
+      Events:
+        GetResource:
+          Type: Api
+          Properties:
+            Path: /mysql/{resourceId}
+            Method: GET
+        PutResource:
+          Type: Api
+          Properties:
+            Path: /mysql
+            Method: PUT

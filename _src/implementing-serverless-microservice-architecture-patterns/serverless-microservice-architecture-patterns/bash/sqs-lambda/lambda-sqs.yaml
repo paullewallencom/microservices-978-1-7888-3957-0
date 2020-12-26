@@ -1,0 +1,38 @@
+﻿AWSTemplateFormatVersion: '2010-09-09'
+Transform: 'AWS::Serverless-2016-10-31'
+Description: >-
+  This Lambda is invoked by a cloud watch event on cron
+  Reads a batch of messages from SQS.
+Resources:
+  lambdasns:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: lambda_process_sqs_messages.lambda_handler
+      Runtime: python2.7
+      CodeUri: ../../package/lambda-sqs.zip
+      FunctionName: lambda-sqs
+      Description: >-
+        This Lambda is invoked by API Gateway and queries DynamoDB.
+      MemorySize: 128
+      Timeout: 60  
+      Role: 'arn:aws:iam::000000000000:role/lambda-sqs'
+      Environment:
+        Variables:
+          environment: dev
+      Events:
+        Timer:
+          Type: Schedule
+          Properties:
+            Schedule: cron(0/2 * ? * * *)
+
+  SQSEvents:
+    Type: "AWS::SQS::Queue"
+    Properties:
+      QueueName: user-visits-sam.fifo
+      ContentBasedDeduplication: True
+      DelaySeconds: 1
+      FifoQueue: True
+      MaximumMessageSize: 262144
+      MessageRetentionPeriod: 1209600
+      ReceiveMessageWaitTimeSeconds: 5
+      VisibilityTimeout: 5      

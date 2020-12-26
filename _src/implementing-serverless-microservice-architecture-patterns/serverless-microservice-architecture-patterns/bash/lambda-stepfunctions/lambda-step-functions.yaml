@@ -1,0 +1,45 @@
+﻿AWSTemplateFormatVersion: '2010-09-09'
+Transform: 'AWS::Serverless-2016-10-31'
+Description: >-
+  This Lambda is invoked to test Step functions
+Resources:
+  lambdachargecreditcard:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: charge_credit_card.lambda_handler
+      Runtime: python2.7
+      CodeUri: ../../package/lambda-step-functions.zip
+      FunctionName: lambda-charge_credit_card
+      MemorySize: 128
+      Timeout: 3  
+      Role: 'arn:aws:iam::000000000000:role/lambda-execution-role'
+  lambdakitchenorder:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: kitchen_order.lambda_handler
+      Runtime: python2.7
+      CodeUri: ../../package/lambda-step-functions.zip
+      FunctionName: lambda-kitchen_order
+      MemorySize: 128
+      Timeout: 3  
+      Role: 'arn:aws:iam::000000000000:role/lambda-execution-role'
+  lambdarestaurantkitchencheck:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: restaurant_kitchen_check.lambda_handler
+      Runtime: python2.7
+      CodeUri: ../../package/lambda-step-functions.zip
+      FunctionName: lambda-restaurant_kitchen_check
+      MemorySize: 128
+      Timeout: 3  
+      Role: 'arn:aws:iam::000000000000:role/lambda-execution-role'
+  lambdaverifyconsumer:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: verify_consumer.lambda_handler
+      Runtime: python2.7
+      CodeUri: ../../package/lambda-step-functions.zip
+      FunctionName: lambda-verify_consumer
+      MemorySize: 128
+      Timeout: 3  
+      Role: 'arn:aws:iam::000000000000:role/lambda-execution-role'

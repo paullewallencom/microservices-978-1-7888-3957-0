@@ -1,0 +1,35 @@
+{
+	"Records": [{
+		"eventVersion": "1.0",
+		"eventID": "shardId-000000000001: 49570526300427848640655197476632670751886412587106044590",
+		"kinesis": {
+			"approximateArrivalTimestamp": 1500914884.795,
+			"partitionKey": "dcf3358d-708f-11e7-b46a-61821996dff5",
+			"data": "eyJ1c2VyX2lkIjoiU0QyM2hqMzIhIiwidXNlcl9hZ2VudCI6Ik1vemlsbGEvNX0==",
+			"kinesisSchemaVersion": "1.0",
+			"sequenceNumber": "49570526300427848233655197476632670751886412587106041890"
+		},
+		"invokeIdentityArn": "arn: aws: iam: : 111111111111: role/sample",
+		"eventName": "aws: kinesis: record",
+		"eventSourceARN": "arn: aws: kinesis: eu-west-1: 111111111111: stream/clickstream",
+		"eventSource": "aws: kinesis",
+		"awsRegion": "eu-west-1"
+	},
+	{
+		"eventVersion": "1.0",
+		"eventID": "shardId-000000000001: 49570526300427848640655197476632670751886412587106044591",
+		"kinesis": {
+			"approximateArrivalTimestamp": 1500914882.795,
+			"partitionKey": "dcf3358d-708f-11e7-b46a-61821996dff5",
+			"data": "eyJ1c2VyX2lkIjoiU0QyM2hqMzIhIiwidXNlcl9hZ2VudCI6Ik1vemlsbGEvNS4wIChYMTE7IExpbnV4IHg4Nl82NCkgQXBwbGVXZWJLaXQvNTM3LjM2IChLSFRNTCwgbGlrZSBHZWNrbykgQ2hyb21lLzUxLjAuMjcwNC4xMDMgU2FmYXJpLzUzNy4zNi4iLCJyZWZlcmVyIjoiaHR0cHM6Ly93d3cuZ29vZ2xlLmNvbS8iLCJ1cmwiOiJodHRwczovL3d3dy5teXNpdGUuY29tL3RpbWVsaW5lIiwgImV2ZW50X25hbWUiOiJpbXByZXNzaW9uIn0==",
+			"kinesisSchemaVersion": "1.0",
+			"sequenceNumber": "49570526300427848233655197476632670751886412587106041891"
+		},
+		"invokeIdentityArn": "arn: aws: iam: : 111111111111: role/sample",
+		"eventName": "aws: kinesis: record",
+		"eventSourceARN": "arn: aws: kinesis: eu-west-1: 111111111111: stream/clickstream",
+		"eventSource": "aws: kinesis",
+		"awsRegion": "eu-west-1"
+	}]
+}
+

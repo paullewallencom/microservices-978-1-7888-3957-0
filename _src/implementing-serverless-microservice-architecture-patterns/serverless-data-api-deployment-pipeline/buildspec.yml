@@ -1,0 +1,34 @@
+version: 0.1
+# Declaration of environment variables
+# Copyright (c) 2017-2018 STARWOLF Ltd and Richard Freeman. All Rights Reserved.
+environment_variables:
+ plaintext:
+  TEMPLATE: "lambda-dynamo-data-api"
+  BUCKET: "testbucket121f"
+  PREFIX: "sam"
+  REGION: "eu-west-1"
+phases:
+  install:
+    commands:
+      - printenv 
+      - pip install --upgrade pip      
+      - pip install -r requirements.txt
+  pre_build:
+    commands:
+      - python -m unittest discover test
+  build:
+    commands:
+      - ls -all
+      #- aws s3api list-buckets
+      - aws cloudformation package --template-file $TEMPLATE.yaml --output-template-file $TEMPLATE-output.yaml --s3-bucket $BUCKET --s3-prefix $PREFIX --region $REGION
+      
+  post_build:
+    commands:
+      - echo Build completed on `date`
+      #CodeBuild can also deploy
+      # - aws cloudformation deploy --template-file  $TEMPLATE-output.yaml --stack-name $TEMPLATE --capabilities CAPABILITY_IAM --region $REGION
+  
+artifacts:
+  type: zip
+  files:
+    - $TEMPLATE-output.yaml

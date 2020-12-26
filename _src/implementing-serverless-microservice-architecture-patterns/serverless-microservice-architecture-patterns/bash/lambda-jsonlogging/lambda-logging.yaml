@@ -1,0 +1,17 @@
+﻿AWSTemplateFormatVersion: '2010-09-09'
+Transform: 'AWS::Serverless-2016-10-31'
+Description: >-
+  This Lambda to test JSON logging.
+Resources:
+  lambdaLogging:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: lambda_logging.lambda_handler
+      Runtime: python2.7
+      CodeUri: ../../package/lambda-logging.zip
+      FunctionName: lambda-logging-sam
+      Description: >-
+        This Lambda is invoked to demonstrate the JSON logging.
+      MemorySize: 128
+      Timeout: 3  
+      Role: 'arn:aws:iam::000000000000:role/lambda-execution-role'

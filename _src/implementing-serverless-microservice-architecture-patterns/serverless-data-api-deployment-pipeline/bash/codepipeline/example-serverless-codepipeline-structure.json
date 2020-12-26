@@ -1,0 +1,197 @@
+{
+    "pipeline": {
+        "roleArn": "arn:aws:iam::000000000000:role/codepipeline-serverless",
+        "stages": [
+            {
+                "name": "Source",
+                "actions": [
+                    {
+                        "inputArtifacts": [],
+                        "name": "Source",
+                        "actionTypeId": {
+                            "category": "Source",
+                            "owner": "AWS",
+                            "version": "1",
+                            "provider": "CodeCommit"
+                        },
+                        "outputArtifacts": [
+                            {
+                                "name": "OutputSource"
+                            }
+                        ],
+                        "configuration": {
+                            "PollForSourceChanges": "false",
+                            "BranchName": "master",
+                            "RepositoryName": "serverless.data.api"
+                        },
+                        "runOrder": 1
+                    },
+                    {
+                        "inputArtifacts": [],
+                        "name": "test-lambda-source",
+                        "actionTypeId": {
+                            "category": "Source",
+                            "owner": "AWS",
+                            "version": "1",
+                            "provider": "CodeCommit"
+                        },
+                        "outputArtifacts": [
+                            {
+                                "name": "OutputLambdaSource"
+                            }
+                        ],
+                        "configuration": {
+                            "PollForSourceChanges": "false",
+                            "BranchName": "master",
+                            "RepositoryName": "serverless.data.api.lambda.test"
+                        },
+                        "runOrder": 1
+                    }
+                ]
+            },
+            {
+                "name": "Build",
+                "actions": [
+                    {
+                        "inputArtifacts": [
+                            {
+                                "name": "OutputSource"
+                            }
+                        ],
+                        "name": "CodeBuild",
+                        "actionTypeId": {
+                            "category": "Build",
+                            "owner": "AWS",
+                            "version": "1",
+                            "provider": "CodeBuild"
+                        },
+                        "outputArtifacts": [
+                            {
+                                "name": "OutputBuild"
+                            }
+                        ],
+                        "configuration": {
+                            "ProjectName": "serverless-data-api"
+                        },
+                        "runOrder": 1
+                    }
+                ]
+            },
+            {
+                "name": "Staging",
+                "actions": [
+                    {
+                        "inputArtifacts": [
+                            {
+                                "name": "OutputBuild"
+                            }
+                        ],
+                        "name": "lambda-dynamo-data-api",
+                        "actionTypeId": {
+                            "category": "Deploy",
+                            "owner": "AWS",
+                            "version": "1",
+                            "provider": "CloudFormation"
+                        },
+                        "outputArtifacts": [
+                            {
+                                "name": "OutputDeploy"
+                            }
+                        ],
+                        "configuration": {
+                            "ActionMode": "CHANGE_SET_REPLACE",
+                            "ChangeSetName": "codepipe-lambda-stack-changeset",
+                            "RoleArn": "arn:aws:iam::000000000000:role/cloudformation-lambda-execution-role",
+                            "Capabilities": "CAPABILITY_IAM",
+                            "StackName": "lambda-dynamo-data-api",
+                            "TemplatePath": "OutputBuild::lambda-dynamo-data-api-output.yaml"
+                        },
+                        "runOrder": 1
+                    },
+                    {
+                        "inputArtifacts": [
+                            {
+                                "name": "OutputDeploy"
+                            }
+                        ],
+                        "name": "execute-changeset",
+                        "actionTypeId": {
+                            "category": "Deploy",
+                            "owner": "AWS",
+                            "version": "1",
+                            "provider": "CloudFormation"
+                        },
+                        "outputArtifacts": [
+                            {
+                                "name": "OutputExecuteChangeSet"
+                            }
+                        ],
+                        "configuration": {
+                            "StackName": "lambda-dynamo-data-api",
+                            "ActionMode": "CHANGE_SET_EXECUTE",
+                            "ChangeSetName": "codepipe-lambda-stack-changeset"
+                        },
+                        "runOrder": 2
+                    }
+                ]
+            },
+            {
+                "name": "LambdaTest",
+                "actions": [
+                    {
+                        "inputArtifacts": [
+                            {
+                                "name": "OutputLambdaSource"
+                            }
+                        ],
+                        "name": "test-lambda",
+                        "actionTypeId": {
+                            "category": "Build",
+                            "owner": "AWS",
+                            "version": "1",
+                            "provider": "CodeBuild"
+                        },
+                        "outputArtifacts": [
+                            {
+                                "name": "OutputLambdaBuildTest"
+                            }
+                        ],
+                        "configuration": {
+                            "ProjectName": "serverless-data-api-lambda-test"
+                        },
+                        "runOrder": 1
+                    }
+                ]
+            },
+            {
+                "name": "ApproveReleasetoStaging",
+                "actions": [
+                    {
+                        "inputArtifacts": [],
+                        "name": "approve-release-staging",
+                        "actionTypeId": {
+                            "category": "Approval",
+                            "owner": "AWS",
+                            "version": "1",
+                            "provider": "Manual"
+                        },
+                        "outputArtifacts": [],
+                        "configuration": {},
+                        "runOrder": 1
+                    }
+                ]
+            }
+        ],
+        "artifactStore": {
+            "type": "S3",
+            "location": "codepipeline-eu-west-1-17285518362"
+        },
+        "name": "codepipeline-serverless-data-api",
+        "version": 13
+    },
+    "metadata": {
+        "pipelineArn": "arn:aws:codepipeline:eu-west-1:000000000000:codepipeline-serverless-data-api",
+        "updated": 1525294484.869,
+        "created": 1525116757.677
+    }
+}

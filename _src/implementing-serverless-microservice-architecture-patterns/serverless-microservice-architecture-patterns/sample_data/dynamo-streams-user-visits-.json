@@ -1,0 +1,134 @@
+{
+	"Records": [{
+		"eventID": "fd2e7b06b5f9336ec4f512e5ccbd5d5a",
+		"eventVersion": "1.1",
+		"dynamodb": {
+			"OldImage": {
+				"EventId": {
+					"S": "314"
+				},
+				"EventDay": {
+					"N": "20170405"
+				},
+				"EventCount": {
+					"N": "1"
+				}
+			},
+			"SequenceNumber": "64783500000000020144294720",
+			"Keys": {
+				"EventId": {
+					"S": "314"
+				},
+				"EventDay": {
+					"N": "20170405"
+				}
+			},
+			"SizeBytes": 143,
+			"NewImage": {
+				"EventId": {
+					"S": "314"
+				},
+				"EventDay": {
+					"N": "20170405"
+				},
+				"EventCount": {
+					"N": "10"
+				}
+			},
+			"ApproximateCreationDateTime": 1491388020.0,
+			"StreamViewType": "NEW_AND_OLD_IMAGES"
+		},
+		"awsRegion": "eu-west-1",
+		"eventName": "MODIFY",
+		"eventSourceARN": "arn:aws:dynamodb:eu-west-1:000000000000:table/user-visits/stream/2017-12-05T10:26:48.731",
+		"eventSource": "aws:dynamodb"
+	},
+	{
+		"eventID": "e91dd2bb366e099aaa14f385e9a4e337",
+		"eventVersion": "1.1",
+		"dynamodb": {
+			"OldImage": {
+				"EventId": {
+					"S": "302"
+				},
+				"EventDay": {
+					"N": "20170405"
+				},
+				"EventCount": {
+					"N": "215"
+				}
+			},
+			"SequenceNumber": "64783600000000020144294749",
+			"Keys": {
+				"EventId": {
+					"S": "302"
+				},
+				"EventDay": {
+					"N": "20170405"
+				}
+			},
+			"SizeBytes": 156,
+			"NewImage": {
+				"EventId": {
+					"S": "302"
+				},
+				"EventDay": {
+					"N": "20170405"
+				},
+				"EventCount": {
+					"N": "217"
+				}
+			},
+			"ApproximateCreationDateTime": 1491388020.0,
+			"StreamViewType": "NEW_AND_OLD_IMAGES"
+		},
+		"awsRegion": "eu-west-1",
+		"eventName": "MODIFY",
+		"eventSourceARN": "arn:aws:dynamodb:eu-west-1:000000000000:table/user-visits/stream/2017-12-05T10:26:48.731",
+		"eventSource": "aws:dynamodb"
+	},
+	{
+		"eventID": "529dcb3ed1fe12813312774fb440072d",
+		"eventVersion": "1.1",
+		"dynamodb": {
+			"OldImage": {
+				"EventId": {
+					"S": "333"
+				},
+				"EventDay": {
+					"N": "20170405"
+				},
+				"EventCount": {
+					"N": "215"
+				}
+			},
+			"SequenceNumber": "64783700000000020144294750",
+			"Keys": {
+				"EventId": {
+					"S": "333"
+				},
+				"EventDay": {
+					"N": "20170405"
+				}
+			},
+			"SizeBytes": 186,
+			"NewImage": {
+				"EventId": {
+					"S": "333"
+				},
+				"EventDay": {
+					"N": "20170405"
+				},
+				"EventCount": {
+					"N": "216"
+				}
+			},
+			"ApproximateCreationDateTime": 1491388020.0,
+			"StreamViewType": "NEW_AND_OLD_IMAGES"
+		},
+		"awsRegion": "eu-west-1",
+		"eventName": "MODIFY",
+		"eventSourceARN": "arn:aws:dynamodb:eu-west-1:000000000000:table/user-visits/stream/2017-12-05T10:26:48.731",
+		"eventSource": "aws:dynamodb"
+	}]
+}
